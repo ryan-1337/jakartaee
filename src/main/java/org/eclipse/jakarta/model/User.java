@@ -4,8 +4,8 @@ import jakarta.persistence.*;
 
 @Entity
 @Table
-@NamedQuery(name = "Utilisateur.findAll", query = "SELECT u FROM Utilisateur u")
-public class Utilisateur {
+@NamedQuery(name = "User.findAll", query = "SELECT u FROM User u")
+public class User {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Long id;
@@ -14,6 +14,8 @@ public class Utilisateur {
     private String username;
 
     private String password;
+
+    private String token;
 
     public Long getId() {
         return id;
@@ -37,5 +39,13 @@ public class Utilisateur {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 }

@@ -1,40 +1,38 @@
 package org.eclipse.jakarta.resource;
 
-import jakarta.ejb.DuplicateKeyException;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
-import jakarta.validation.Valid;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.SecurityContext;
-import org.eclipse.jakarta.dao.UtilisateurDao;
-import org.eclipse.jakarta.model.Utilisateur;
+import org.eclipse.jakarta.dao.UserDao;
+import org.eclipse.jakarta.model.User;
 
 import java.util.List;
 
 @Path("/users")
-public class UtilisateurResource {
+public class UserResource {
     @Inject
-    UtilisateurDao utilisateurDao;
+    UserDao userDao;
 
     @Context
     SecurityContext securityContext;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Utilisateur> getAll() {
-        return utilisateurDao.getAll();
+    public List<User> getAll() {
+        return userDao.getAll();
     }
 
     @Transactional
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response addOne(Utilisateur utilisateur) {
-        Utilisateur user = utilisateurDao.findByUsername(utilisateur.getUsername());
+    public Response addOne(User utilisateur) {
+        User user = userDao.findByUsername(utilisateur.getUsername());
         if(user == null) {
-            utilisateurDao.add(utilisateur);
+            userDao.add(utilisateur);
             return Response.status(Response.Status.CREATED).build();
         } else {
             return Response.status(Response.Status.BAD_REQUEST).build();
@@ -45,8 +43,8 @@ public class UtilisateurResource {
     @DELETE
     @Consumes(MediaType.APPLICATION_JSON)
     public Response delete(Long id) {
-        Utilisateur utilisateur = utilisateurDao.findById(id);
-        utilisateurDao.delete(utilisateur);
+        User user = userDao.findById(id);
+        userDao.delete(user);
         return Response.status(Response.Status.ACCEPTED).build();
     }
 
@@ -54,8 +52,8 @@ public class UtilisateurResource {
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
     public Response update(Long id) {
-        Utilisateur utilisateur = utilisateurDao.findById(id);
-        utilisateurDao.update(utilisateur);
+        User user = userDao.findById(id);
+        userDao.update(user);
         return Response.status(Response.Status.ACCEPTED).build();
     }
 }

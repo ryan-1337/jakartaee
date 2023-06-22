@@ -13,7 +13,7 @@ Content-Type: application/json
     "password": "1234"
 }
 ###
-POST localhost:8080/rest/authentication
+POST localhost:8080/rest/auth/login
 Content-Type: application/json
 
 {
