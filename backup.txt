@@ -1,0 +1,4 @@
+    <library id="derbyJDBCLib">
+        <!-- Le jar a été téléchargé et copié dans ce dossier via le plugin maven (voir le pom) -->
+        <fileset dir="${shared.resource.dir}/" includes="derby*.jar" />
+    </library> 

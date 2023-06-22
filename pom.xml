@@ -22,7 +22,7 @@
 		<compiler-plugin.version>3.10.1</compiler-plugin.version>
 		<war-plugin.version>3.3.2</war-plugin.version>
 		<openliberty.version>20.0.0.1</openliberty.version>
-		<derby.version>10.16.1.1</derby.version>
+		<mysql-connector-version>8.0.26</mysql-connector-version>
 	</properties>
 
 	<dependencies>
@@ -32,24 +32,16 @@
 			<version>${jakartaee-api.version}</version>
 			<scope>provided</scope>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.apache.derby/derby -->
+
 		<dependency>
-			<!-- Driver -->
-			<groupId>org.apache.derby</groupId>
-			<artifactId>derby</artifactId>
-			<version>${derby.version}</version>
-			<!-- provided signifie que la lib ne sera pas utilisée pour la compilcation mais
-			uniquement au runtime -->
-			<!-- La lib sera copiée dans le serveur (voir plus bas) -->
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>${mysql-connector-version}</version>
 			<scope>provided</scope>
 		</dependency>
-		<dependency>
-			<!-- Serveur embarqué -->
-			<groupId>org.apache.derby</groupId>
-			<artifactId>derbytools</artifactId>
-			<version>${derby.version}</version>
-			<scope>provided</scope>
-		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
+
 	</dependencies>
 
 	<build>
@@ -73,14 +65,19 @@
 						OpenLiberty -->
 						<location>${project.build.directory}/liberty/wlp/usr/shared/resources</location>
 						<dependency>
-							<groupId>org.apache.derby</groupId>
-							<artifactId>derby</artifactId>
-						</dependency>
-						<dependency>
-							<groupId>org.apache.derby</groupId>
-							<artifactId>derbytools</artifactId>
+							<groupId>mysql</groupId>
+							<artifactId>mysql-connector-java</artifactId>
+							<version>8.0.26</version>
 						</dependency>
 					</copyDependencies>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>6</source>
+					<target>6</target>
 				</configuration>
 			</plugin>
 		</plugins>

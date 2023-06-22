@@ -62,15 +62,23 @@
     <!-- Default SSL configuration enables trust for default certificates from the Java runtime -->
     <ssl id="defaultSSLConfig" trustDefaultCerts="true" />
 
-    <!-- Derby Library Configuration -->
-    <library id="derbyJDBCLib">
-        <!-- Le jar a été téléchargé et copié dans ce dossier via le plugin maven (voir le pom) -->
-        <fileset dir="${shared.resource.dir}/" includes="derby*.jar" />
+    <!-- Postgresql Library Configuration -->
+
+    <dataSource id="eventjpadatasource" jndiName="jdbc/eventjpadatasource">
+        <jdbcDriver libraryRef="jdcLib"/>
+        <properties databaseName="jakartaee" serverName="localhost" portNumber="3306" user="root" password="root"/>
+    </dataSource>
+
+    <library id="jdcLib">
+        <fileset dir="${shared.resource.dir}/" includes="*.jar" />
     </library>
 
     <!-- Définition du datasource -->
     <dataSource id="eventjpadatasource" jndiName="jdbc/eventjpadatasource">
-        <jdbcDriver libraryRef="derbyJDBCLib" />
-        <properties.derby.embedded databaseName="EventDB" createDatabase="create" />
+        <properties serverName="localhost" portNumber="3306"
+                    databaseName="jakartaee"
+                    user="root"
+                    password="root"/>
     </dataSource>
+
 </server>

@@ -9,8 +9,16 @@ POST localhost:8080/rest/users
 Content-Type: application/json
 
 {
-    "email": "test@test.fr",
-    "name": "test"
+    "username": "allo",
+    "password": "1234"
+}
+###
+POST localhost:8080/rest/authentication
+Content-Type: application/json
+
+{
+  "username": "allo",
+  "password": "1234"
 }
 ###
 {{base_url}}/helloServlet

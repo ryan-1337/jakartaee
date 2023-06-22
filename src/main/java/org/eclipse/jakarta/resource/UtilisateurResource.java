@@ -1,10 +1,14 @@
 package org.eclipse.jakarta.resource;
 
+import jakarta.ejb.DuplicateKeyException;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.SecurityContext;
 import org.eclipse.jakarta.dao.UtilisateurDao;
 import org.eclipse.jakarta.model.Utilisateur;
 
@@ -14,6 +18,9 @@ import java.util.List;
 public class UtilisateurResource {
     @Inject
     UtilisateurDao utilisateurDao;
+
+    @Context
+    SecurityContext securityContext;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -25,14 +32,19 @@ public class UtilisateurResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response addOne(Utilisateur utilisateur) {
-        utilisateurDao.add(utilisateur);
-        return Response.status(Response.Status.CREATED).build();
+        Utilisateur user = utilisateurDao.findByUsername(utilisateur.getUsername());
+        if(user == null) {
+            utilisateurDao.add(utilisateur);
+            return Response.status(Response.Status.CREATED).build();
+        } else {
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
     }
 
     @Transactional
     @DELETE
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response delete(Integer id) {
+    public Response delete(Long id) {
         Utilisateur utilisateur = utilisateurDao.findById(id);
         utilisateurDao.delete(utilisateur);
         return Response.status(Response.Status.ACCEPTED).build();
@@ -41,7 +53,7 @@ public class UtilisateurResource {
     @Transactional
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response update(Integer id) {
+    public Response update(Long id) {
         Utilisateur utilisateur = utilisateurDao.findById(id);
         utilisateurDao.update(utilisateur);
         return Response.status(Response.Status.ACCEPTED).build();
