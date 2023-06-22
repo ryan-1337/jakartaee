@@ -4,8 +4,8 @@ import jakarta.persistence.*;
 
 @Entity
 @Table
-@NamedQuery(name = "User.findAll", query = "SELECT u FROM User u")
-public class User {
+@NamedQuery(name = "Utilisateur.findAll", query = "SELECT u FROM Utilisateur u")
+public class Utilisateur {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Long id;
