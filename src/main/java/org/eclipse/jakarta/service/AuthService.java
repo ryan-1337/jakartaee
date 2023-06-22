@@ -3,6 +3,7 @@ package org.eclipse.jakarta.service;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import org.eclipse.jakarta.dao.UtilisateurDao;
+import org.eclipse.jakarta.model.Utilisateur;
 
 import java.security.SecureRandom;
 import java.util.Base64;
@@ -15,6 +16,11 @@ public class AuthService {
     private static final Base64.Encoder base64Encoder = Base64.getUrlEncoder(); //threadsafe
     public boolean authenticate(String username, String password) {
         return utilisateurDao.isValidUser(username, password);
+    }
+
+    public String getTokenFromBdd(String username) {
+        Utilisateur user = utilisateurDao.getUserByUsername(username);
+        return user.getToken();
     }
 
     public String generateToken(String username) {

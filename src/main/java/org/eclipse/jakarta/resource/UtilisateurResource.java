@@ -3,8 +3,10 @@ package org.eclipse.jakarta.resource;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.SecurityContext;
 import org.eclipse.jakarta.dao.UtilisateurDao;
 import org.eclipse.jakarta.model.Utilisateur;
 
