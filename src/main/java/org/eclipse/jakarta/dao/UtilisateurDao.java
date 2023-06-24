@@ -5,10 +5,12 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.PersistenceContext;
+import jakarta.transaction.Transactional;
 import org.eclipse.jakarta.model.Utilisateur;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RequestScoped
 public class UtilisateurDao {
@@ -40,11 +42,18 @@ public class UtilisateurDao {
     }
 
     public Utilisateur getUserByUsername(String username) {
-        System.err.println(users);
         return users.stream()
                 .filter(utilisateur -> utilisateur.getUsername().equals(username))
                 .findFirst()
                 .orElse(null);
+    }
+
+    public Optional<Utilisateur> getUserByToken(String token) {
+        users = getAll();
+        System.err.println(users.get(0).getToken());
+        return users.stream()
+                .filter(utilisateur -> utilisateur.getToken().equals(token))
+                .findFirst();
     }
 
     public Utilisateur findById(Long id) {
@@ -55,6 +64,7 @@ public class UtilisateurDao {
         return utilisateur;
     }
 
+    @Transactional
     public void add(Utilisateur utilisateur) {
         em.persist(utilisateur);
     }
